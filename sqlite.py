@@ -26,17 +26,22 @@ def create_recipes_table(conn):
     CREATE TABLE IF NOT EXISTS recipes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        duration TEXT,
-        link TEXT
+        link TEXT,
+        difficulty TEXT,
+        cost TEXT,
+        preptime TEXT,
+        cooktime TEXT,
+        ingredients TEXT,
+        steps TEXT
     );
     """
     execute_query(conn, query)
 
-def insert_into_db(conn, name, duration, link):
+def insert_into_db(conn, data):
     query = f"""
-    INSERT INTO recipes (name, duration, link)
+    INSERT INTO recipes (name, link, difficulty, cost, preptime, cooktime, ingredients, steps)
     VALUES
-    ("\{name}\", \"{duration}\", \"{link}\");
+    ("\{data[0]}\", \"{data[1]}\", \"{data[2]}\", \"{data[3]}\", \"{data[4]}\", \"{data[5]}\", \"{data[6]}\", \"{data[7]}\");
     """
     execute_query(conn, query)
 
