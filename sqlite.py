@@ -38,12 +38,13 @@ def create_recipes_table(conn):
     execute_query(conn, query)
 
 def insert_into_db(conn, data):
-    query = f"""
-    INSERT INTO recipes (name, link, difficulty, cost, preptime, cooktime, ingredients, steps)
-    VALUES
-    ("\{data[0]}\", \"{data[1]}\", \"{data[2]}\", \"{data[3]}\", \"{data[4]}\", \"{data[5]}\", \"{data[6]}\", \"{data[7]}\");
-    """
-    execute_query(conn, query)
+    if data:
+        query = f"""
+        INSERT INTO recipes (name, link, difficulty, cost, preptime, cooktime, ingredients, steps)
+        VALUES
+        ("\{data[0]}\", \"{data[1]}\", \"{data[2]}\", \"{data[3]}\", \"{data[4]}\", \"{data[5]}\", \"{data[6]}\", \"{data[7]}\");
+        """
+        execute_query(conn, query)
 
 def execute_read_query(connection, query):
     cursor = connection.cursor()
