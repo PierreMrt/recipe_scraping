@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+from sqlite import create_connection, execute_read_query, insert_into_db
+
 def scrap_links(existing):
     links = []
     for page in range(1, 157):
@@ -73,7 +75,18 @@ def scrap_recipe(link):
 
     return (name, link, difficulty, cost, preptime, cooktime, '||'.join(ingredients_list), '||'.join(steps_list))
 
+def update_all():
+    conn = create_connection('db_recettes.sqlite')
+
+    existing = execute_read_query(conn, "SELECT link FROM recipes")
+    existing = [item for t in existing for item in t] # Transforming list of tuples into list
+
+    links = scrap_links(existing)
+    
+    for link in links:
+        recipe = scrap_recipe(link)
+        insert_into_db(conn, recipe)
+
 
 if __name__ == '__main__':
-    # scrap_links()
-    scrap_recipe("https://www.regal.fr/recettes/plats/poule-au-riz-7652")
+    update_all()

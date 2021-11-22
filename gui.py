@@ -3,10 +3,10 @@ import PySimpleGUI as sg
 
 def create_window():
     layout = [
-        [sg.Button('Mettre à jour'), sg.Button('Liste a-Z')],
-        [sg.InputText(), sg.Button('Recherche', pad=(0, 60), size=(20, 3))],
+        [sg.Button('Mettre à jour'), sg.Text(text='', key='TextUpdate')],
+        [sg.InputText(), sg.Button('Recherche', pad=(0, 60), size=(20, 3)), sg.Button('Liste a-Z', size=(10, 3))],
         [sg.Radio('Toutes recettes', 'RandomChoice', default=True), sg.Radio('Faciles', 'RandomChoice'), sg.Radio('Rapides', 'RandomChoice')],
-        [sg.Button('Au hasard')]
+        [sg.Button('Au hasard', size=50)]
     ]
 
     return sg.Window('Window Title', layout, margins=(60, 60))
@@ -18,7 +18,7 @@ def run(window):
             break
 
         elif event == 'Mettre à jour':
-            print('Mise a jour en cours')
+           window.find_element('TextUpdate').update(value="Les recettes sont en train d'être mise à jour..")
 
         elif event == 'Liste a-Z':
             print('Liste de toutes les recettes')
