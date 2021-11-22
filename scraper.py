@@ -2,11 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-from sqlite import insert_into_db
-
-def scrap_links():
+def scrap_links(existing):
     links = []
-    for page in range(1, 11):
+    for page in range(1, 157):
         r = requests.get(f"https://www.regal.fr/recettes/plats?sort_by=title_1&page={page}")
         soup = BeautifulSoup(r.text, 'html.parser')
         recipes = soup.find_all('div', class_="field-item even")
@@ -14,7 +12,12 @@ def scrap_links():
             try:
                 link = recipe.find('a')['href']
                 if check_link(link):
-                    links.append(f"https://www.regal.fr{link}")
+                    link = f"https://www.regal.fr{link}"
+                    if link not in existing:
+                        links.append(link)
+                    else:
+                        print(f'Skipping {link}, already in database')
+
             except TypeError:
                 # Not a recipe link
                 pass
@@ -31,30 +34,44 @@ def scrap_recipe(link):
     r = requests.get(link)
     soup = BeautifulSoup(r.text, 'html.parser')
 
+    name = soup.find('h1').text
     try:
-        name = soup.find('h1').text
         difficulty = soup.find('div', class_='field-name-field-difficulty-level').find('a').text
+    except AttributeError:
+        difficulty = None
+    
+    try:
         cost = soup.find('div', class_='field-name-field-price-level').find('a').text
-        preptime = soup.find('div', class_='field-name-field-recipe-preptime').find('div', class_='field-item even').text
-        cooktime = soup.find('div', class_='field-name-field-recipe-cooktime').find('div', class_='field-item even').text
+    except AttributeError:
+        cost = None
 
-        ingredients_list = []
+    try:
+        preptime = soup.find('div', class_='field-name-field-recipe-preptime').find('div', class_='field-item even').text
+    except AttributeError:
+        preptime = None
+
+    try:
+        cooktime = soup.find('div', class_='field-name-field-recipe-cooktime').find('div', class_='field-item even').text
+    except AttributeError:
+        cooktime = None
+
+    ingredients_list = []
+    try:
         ingredients = soup.find('div', class_='field-name-field-recipe-elements').find_all('div', class_='content')
         for ingredient in ingredients:
             ingredients_list.append(ingredient.text.replace('\n', ''))
+    except AttributeError:
+        pass
 
-        steps_list = []
+    steps_list = []
+    try:
         steps = soup.find('div', class_='field-name-field-recipe-steps').find_all('p')
         for step in steps:
             steps_list.append(step.text.replace('\xa0', ''))
+    except AttributeError:
+        pass
 
-        return [name, link, difficulty, cost, preptime, cooktime, ingredients_list, steps_list]
-    except AttributeError as e:
-        print(f'An error occured: {e}\n Unable to scrap: {link}')
-        return None
-
-    
-  
+    return (name, link, difficulty, cost, preptime, cooktime, '||'.join(ingredients_list), '||'.join(steps_list))
 
 
 if __name__ == '__main__':

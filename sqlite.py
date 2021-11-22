@@ -12,17 +12,17 @@ def create_connection(path):
     return connection
 
 
-def execute_query(connection, query):
+def execute_query(connection, query, data):
     cursor = connection.cursor()
     try:
-        cursor.execute(query)
+        cursor.execute(query, data)
         connection.commit()
-        print("Query executed successfully")
     except Error as e:
         print(f"The error '{e}' occurred")
 
 def create_recipes_table(conn):
-    query = """
+    c = conn.cursor()
+    c.execute("""
     CREATE TABLE IF NOT EXISTS recipes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
@@ -34,17 +34,16 @@ def create_recipes_table(conn):
         ingredients TEXT,
         steps TEXT
     );
-    """
-    execute_query(conn, query)
+    """)
+    conn.commit()
 
 def insert_into_db(conn, data):
-    if data:
-        query = f"""
-        INSERT INTO recipes (name, link, difficulty, cost, preptime, cooktime, ingredients, steps)
-        VALUES
-        ("\{data[0]}\", \"{data[1]}\", \"{data[2]}\", \"{data[3]}\", \"{data[4]}\", \"{data[5]}\", \"{data[6]}\", \"{data[7]}\");
-        """
-        execute_query(conn, query)
+    c = conn.cursor()
+    c.execute("""
+    INSERT INTO recipes (name, link, difficulty, cost, preptime, cooktime, ingredients, steps)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, data)
+    conn.commit()
 
 def execute_read_query(connection, query):
     cursor = connection.cursor()
