@@ -1,17 +1,30 @@
 from django.shortcuts import render
 from .forms import SearchForm
 from django.http import HttpResponseRedirect
+from django.views.generic import ListView
 
 from .models import Recipe
 
 def index(request):
     return render(request, 'index.html')
 
+class AllRecipeView(ListView):
+    model = Recipe
+    context_object_name = 'all_recipes'
+    template_name = 'az.html'
+
+    def get_queryset(self):
+        return Recipe().objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(AllRecipeView, self).get_context_data(**kwargs)
+        return context
+
 def az(request):
     return render(request, 'az.html')
 
 def update(request):
-    Recipe.scrap()
+    Recipe().scrap()
     return render(request, 'update.html')
 
 def get_search(request):
