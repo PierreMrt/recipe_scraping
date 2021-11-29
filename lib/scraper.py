@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-from sqlite import create_connection, execute_read_query, insert_into_db
+from lib.sqlite import create_connection, execute_read_query, insert_into_db
 
 def scrap_links(existing):
     links = []
