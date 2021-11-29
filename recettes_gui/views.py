@@ -7,6 +7,12 @@ from .models import Recipe
 def index(request):
     return render(request, 'index.html')
 
+def az(request):
+    return render(request, 'az.html')
+
+def update(request):
+    return render(request, 'update.html')
+
 def get_search(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
