@@ -11,6 +11,7 @@ def az(request):
     return render(request, 'az.html')
 
 def update(request):
+    Recipe.scrap()
     return render(request, 'update.html')
 
 def get_search(request):

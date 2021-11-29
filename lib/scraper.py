@@ -73,7 +73,16 @@ def scrap_recipe(link):
     except AttributeError:
         pass
 
-    return (name, link, difficulty, cost, preptime, cooktime, '||'.join(ingredients_list), '||'.join(steps_list))
+    return {
+        'name': name, 
+        'link': link, 
+        'difficulty': difficulty, 
+        'cost': cost, 
+        'prep_time': preptime, 
+        'cook_time': cooktime, 
+        'ingredients': '||'.join(ingredients_list), 
+        'steps': '||'.join(steps_list)
+        }
 
 def update_all():
     conn = create_connection('db_recettes.sqlite')
