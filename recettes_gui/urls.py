@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('az', views.az, name='az'),
-    path('update', views.update, name='update'),
+    path('az/', views.AllRecipeView.as_view()),
+    path('update/', views.update, name='update'),
 ]
