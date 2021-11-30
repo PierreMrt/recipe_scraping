@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block index %}
 
+<div class='flex mt-48 justify-center'>
 <form action="/search/" method="post">
     {% csrf_token %}
     {{ form }}
 
-    <p><input id="id_subject" type="text" name="subject" maxlength="100" required class=''>
-    <input type="submit" value="Recherche" class='my-4 p-1 bg-gray-800 hover:bg-gray-900 hover:text-white'></p>
+    <p><input id="id_subject" type="text" name="subject" maxlength="100" required class='py-2 px-5 border border-gray-400'>
+    <input type="submit" value="Recherche" class='my-4 p-2 text-white bg-blue-900 hover:bg-gray-800'></p>
 </form>
+</div>
+
+<div class='flex justify-center mt-32'>
+<a href='/update' class='bg-blue-900 p-2 text-white hover:bg-gray-800'>Mettre à jour les recettes</a>
+</div>
 
 {% endblock %}

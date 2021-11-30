@@ -1,4 +1,10 @@
+# Python libs
+import random
+
+# Django
 from django.db import models
+
+# Custom libs
 from lib.scraper import scrap_links, scrap_recipe
 
 class Recipe(models.Model):
@@ -36,4 +42,10 @@ class Recipe(models.Model):
         recipes = Recipe.objects.all()
         [cached_links.add(r.link) for r in recipes]
         return cached_links
+
+    def get_random(self):
+        ids = [i.id for i in Recipe.objects.all()]
+        random.shuffle(ids)
+        return [Recipe.objects.get(id=i) for i in ids]
+   
 

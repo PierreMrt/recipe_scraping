@@ -1,3 +1,4 @@
+from re import template
 from django.shortcuts import render
 from .forms import SearchForm
 from django.http import HttpResponseRedirect
@@ -12,6 +13,14 @@ class AllRecipeView(ListView):
     model = Recipe
     context_object_name = 'all_recipes'
     template_name = 'az.html'
+
+class RandomRecipeView(ListView):
+    model = Recipe
+    context_object_name = 'random_recipes'
+    template_name = 'random.html'
+    
+    def get_queryset(self):
+       return Recipe.objects.order_by('?')
 
 def update(request):
     Recipe().scrap()
