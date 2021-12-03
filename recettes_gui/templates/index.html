@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block index %}
 
-<div class='flex mt-48 justify-center'>
+<div class='flex mt-64 justify-center'>
     <form method="GET" action="/search/" id="searchform">
     {% csrf_token %}
     {{ form }}
