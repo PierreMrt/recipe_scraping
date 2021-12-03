@@ -8,8 +8,8 @@
     
     <input class='py-2.5 px-8 border border-gray-400 rounded shadow-lg' id="searchbox" name="q" type="text" value="{{ request.GET.q }}" placeholder="Recette ou ingrédient"required>
     <select name="filter" class="bg-white py-3 px-1 rounded border border-gray-400 text-gray-600 shadow-lg">
-        <option value="ingredient">Ingrédient</option>
         <option value="recipe">Recette</option>
+        <option value="ingredient">Ingrédient</option>
         <option value="both">Les deux</option>
     </select>
     <input type="submit" value="Recherche" class='my-4 p-2.5 text-white bg-blue-900 rounded shadow-lg hover:bg-gray-800'></p>
