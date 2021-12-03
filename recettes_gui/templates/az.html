@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block az %}
 
+<div class='flex mb-4 justify-center font-bold text-lg'>
+    {{ all_recipes.count }} recettes dans la base de données
+</div>
 <table class='bg-gray-100 table-fixed'>
     <tr class='bg-blue-900 text-white'>
         <th class='w-1/3'>Recette</th>
