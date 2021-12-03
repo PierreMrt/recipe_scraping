@@ -26,20 +26,21 @@ def update(request):
     Recipe().scrap()
     return render(request, 'update.html')
 
-def get_search(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = SearchForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/thanks/')
+class SearchView(ListView):
+    template_name = 'search.html'
+    context_object_name = 'searched_item'
+    model = Recipe
 
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = SearchForm()
-
-    return render(request, 'index.html', {'form': form})
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        search_choice = self.request.GET.get('filter')
+        if query:
+            if search_choice == 'ingredient':
+                results = Recipe.objects.filter(ingredients__icontains=query)
+            elif search_choice == 'recipe':
+                results = Recipe.objects.filter(name__icontains=query) 
+            elif search_choice == 'both':
+                results = Recipe.objects.filter(ingredients__icontains=query) | Recipe.objects.filter(name__icontains=query) 
+            return results
+        else:
+            return Recipe.objects.all()
