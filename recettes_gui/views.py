@@ -44,3 +44,9 @@ class SearchView(ListView):
             return results
         else:
             return Recipe.objects.all()
+
+def recipe_details(request, pk):
+    recipe = Recipe.objects.filter(id=pk, )
+    context = {'recipe': recipe, }
+    print(context)
+    return render(request, 'recipe_details.html', context)

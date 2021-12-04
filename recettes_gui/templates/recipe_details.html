@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block recipe_details %}
+
+<div class='mt-20'>
+    {% for details in recipe %}
+    <div class='flex text-2xl uppercase text-gray-800 font-bold my-8 justify-center'>
+        {{details.name}}
+    </div>
+    <div class='grid grid-cols-4 grid-rows-3 gap-16'>
+        <div class='bg-white p-4 shadow-lg mt-4 order-1'>
+            <div>Temps de préparation : {{details.prep_time}}</div>
+            <div>Temps de cuisson : {{details.cook_time}}</div>
+            <div>Coût : {{details.cost}}</div>
+        </div>
+        <div class='bg-white p-4 shadow-lg mt-4 row-span-2 order-3'>
+            <p class='underline mb-2'>Ingrédients : <br></p>
+            {{details.ingredients}}
+        </div>
+        <div class='bg-white p-4 shadow-lg mt-4 w-full row-span-3 col-span-3 order-2'>
+            <p class='underline my-4'>Préparation : <br></p>
+            {{details.steps}}
+        </div>
+    </div>
+        <a href={{ details.link }} class='text-blue-900 hover:text-red-700 flex justify-center mt-8'>Voir sur regal.fr</a>
+    {% endfor %}
+</div>
+
+{% endblock %}
