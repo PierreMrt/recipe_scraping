@@ -1,5 +1,6 @@
 # Python libs
 import random
+from re import split
 
 # Django
 from django.db import models
@@ -47,5 +48,14 @@ class Recipe(models.Model):
         ids = [i.id for i in Recipe.objects.all()]
         random.shuffle(ids)
         return [Recipe.objects.get(id=i) for i in ids]
+    
+    def steps_as_list(self, pk):
+        steps = Recipe.objects.get(id=pk).steps
+        return steps.split('||')
+    
+    def ingredients_as_list(self, pk):
+        ingredients = Recipe.objects.get(id=pk).ingredients
+        return ingredients.split('||')
+   
    
 

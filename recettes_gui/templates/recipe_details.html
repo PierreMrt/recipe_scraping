@@ -6,22 +6,29 @@
     <div class='flex text-2xl uppercase text-gray-800 font-bold my-8 justify-center'>
         {{details.name}}
     </div>
-    <div class='grid grid-cols-4 grid-rows-3 gap-16'>
+    <div class='grid grid-cols-4 grid-rows-4 gap-12'>
         <div class='bg-white p-4 shadow-lg mt-4 order-1'>
             <div>Temps de préparation : {{details.prep_time}}</div>
             <div>Temps de cuisson : {{details.cook_time}}</div>
             <div>Coût : {{details.cost}}</div>
         </div>
-        <div class='bg-white p-4 shadow-lg mt-4 row-span-2 order-3'>
-            <p class='underline mb-2'>Ingrédients : <br></p>
-            {{details.ingredients}}
+        <div class='bg-white pb-4 shadow-lg mt-4 row-span-3 order-3'>
+            <span class='py-2 mb-2 bg-blue-900 text-white uppercase font-bold flex justify-center'>Ingrédients <br></span>
+            {% for ingredient in ingredients %}
+            <span class='px-2'>{{ingredient}}<br></span>
+            {% endfor %}
         </div>
-        <div class='bg-white p-4 shadow-lg mt-4 w-full row-span-3 col-span-3 order-2'>
-            <p class='underline my-4'>Préparation : <br></p>
-            {{details.steps}}
+        <div class='bg-white p-4 shadow-lg mt-4 w-full row-span-4 col-span-3 order-2'>
+            <p class='my-4 flex justify-center uppercase text-blue-900 text-xl font-bold'>Préparation <br></p>
+            {% for step in steps %}
+            <p class='my-8 grid grid-cols-10 mx-4'>
+                <span class='bg-blue-900 text-white rounded-full w-12 h-12 flex items-center justify-center align-top'>{{ forloop.counter }}</span> 
+                <span class='flex col-span-9'>{{step}}<br></span>
+            </p>
+            {% endfor %}
         </div>
     </div>
-        <a href={{ details.link }} class='text-blue-900 hover:text-red-700 flex justify-center mt-8'>Voir sur regal.fr</a>
+        <a href={{ details.link }} class='text-blue-900 hover:text-red-700 flex justify-center mt-4 mb-16'>Voir sur regal.fr</a>
     {% endfor %}
 </div>
 

@@ -47,6 +47,7 @@ class SearchView(ListView):
 
 def recipe_details(request, pk):
     recipe = Recipe.objects.filter(id=pk, )
-    context = {'recipe': recipe, }
-    print(context)
+    steps = Recipe().steps_as_list(pk)
+    ingredients = Recipe().ingredients_as_list(pk)
+    context = {'recipe': recipe, 'steps': steps, 'ingredients': ingredients}
     return render(request, 'recipe_details.html', context)
