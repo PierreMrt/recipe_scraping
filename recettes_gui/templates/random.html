@@ -10,7 +10,7 @@
     </tr>
         {% for recipe in random_recipes|slice:":10"%}
             <tr class='border-gray-100 border-8'>
-                <td><a href={{recipe.link}} class="hover:text-blue-800">{{recipe.name}}</a></td>
+                <td><a href='/recipe_details/{{recipe.id}}/' class="hover:text-blue-800">{{recipe.name}}</a></td>
                 <td class='text-center'>{{recipe.prep_time}}</td>
                 <td class='text-center'>{{recipe.cook_time}}</td>
                 <td class='text-center'>{{recipe.cost}}</td>
